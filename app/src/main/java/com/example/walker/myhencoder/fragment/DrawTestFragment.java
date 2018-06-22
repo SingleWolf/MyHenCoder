@@ -140,6 +140,7 @@ public class DrawTestFragment extends BaseFragment {
                 data.add(new SummaryBean(DrawKeyframeFragment.class.getName(), "PropertyValuesHolders.ofKeyframe()", 0));
                 break;
             case 7:
+                data.add(new SummaryBean(DrawRuleViewFragment.class.getName(), "刻度尺", 0));
                 break;
             default:
                 break;
