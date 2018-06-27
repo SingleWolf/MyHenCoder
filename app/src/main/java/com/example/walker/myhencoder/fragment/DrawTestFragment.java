@@ -30,6 +30,7 @@ public class DrawTestFragment extends BaseFragment {
     public static int TYPE_TEST_5 = 5;
     public static int TYPE_TEST_6 = 6;
     public static int TYPE_TEST_7 = 7;
+    public static int TYPE_TEST_8 = 8;
 
     private DrawTestAdapter mAdapter;
     private List<SummaryBean> mData;
@@ -69,11 +70,22 @@ public class DrawTestFragment extends BaseFragment {
                 int pos = vh.getLayoutPosition();
                 try {
                     SummaryBean summary = mData.get(pos);
-                    BaseFragment fragment = (BaseFragment) Class.forName(summary.getClazz()).newInstance();
-                    if (fragment == null) {
-                        return;
+                    if (summary.getType() == 0) {
+                        BaseFragment fragment = (BaseFragment) Class.forName(summary.getClazz()).newInstance();
+                        if (fragment == null) {
+                            return;
+                        }
+                        addFragment(fragment, summary.getDesc());
+                    } else {
+                        CommonShowFragment fragment = (CommonShowFragment) Class.forName(summary.getClazz()).newInstance();
+                        if (fragment == null) {
+                            return;
+                        }
+                        Bundle data = new Bundle();
+                        data.putInt(CommonShowFragment.KEY_FLAG_SHOW, summary.getType());
+                        fragment.setArguments(data);
+                        addFragment(fragment, summary.getDesc());
                     }
-                    addFragment(fragment, summary.getDesc());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -141,6 +153,9 @@ public class DrawTestFragment extends BaseFragment {
                 break;
             case 7:
                 data.add(new SummaryBean(DrawRuleViewFragment.class.getName(), "刻度尺", 0));
+                break;
+            case 8:
+                data.add(new SummaryBean(CommonShowFragment.class.getName(), "水波纹进度条", 1));
                 break;
             default:
                 break;

@@ -19,10 +19,8 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-
 import com.example.walker.myhencoder.R;
 
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 
@@ -92,7 +90,7 @@ public class RulerView extends View {
      */
     private int resultNumColor = 0xff50b586;
     /**
-     * kg颜色
+     * 单位
      */
     private String unit = "kg";
     /**
@@ -511,7 +509,7 @@ public class RulerView extends View {
         if (onChooseResulterListener != null) {
             onChooseResulterListener.onScrollResult(resultText); //接口不断回调给使用者结果值
         }
-        //绘制当前屏幕可见刻度,不需要裁剪屏幕,while循环只会执行·屏幕宽度/刻度宽度·次,大部分的绘制都是if(curDis<width)这样子内存暂用相对来说会比较高。。
+        //绘制当前屏幕可见刻度,不需要裁剪屏幕,while循环只会执行·屏幕宽度/刻度宽度·次,大部分的绘制都是if(curDis<width)这样子内存暂用相对来说会比较高。
         while (rulerRight < width) {
             if (num1 % scaleCount == 0) {    //绘制整点刻度以及文字
                 if ((moveX >= 0 && rulerRight < moveX - scaleGap) || width / 2 - rulerRight <= getWhichScalMovex(maxScale + 1) - moveX) {

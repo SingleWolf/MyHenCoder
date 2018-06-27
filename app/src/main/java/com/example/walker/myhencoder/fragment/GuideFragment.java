@@ -97,6 +97,7 @@ public class GuideFragment extends BaseFragment {
         data.add(new SummaryBean(DrawTestFragment.class.getName(), "自定义View 1-5 绘制顺序", DrawTestFragment.TYPE_TEST_5));
         data.add(new SummaryBean(DrawTestFragment.class.getName(), "自定义View 1-6 属性动画", DrawTestFragment.TYPE_TEST_6));
         data.add(new SummaryBean(DrawTestFragment.class.getName(), "参考借鉴", DrawTestFragment.TYPE_TEST_7));
+        data.add(new SummaryBean(DrawTestFragment.class.getName(), "没事画俩下", DrawTestFragment.TYPE_TEST_8));
         return data;
     }
 }
