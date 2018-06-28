@@ -16,6 +16,7 @@ import com.example.walker.myhencoder.base.BaseFragment;
 public class CommonShowFragment extends BaseFragment {
     public static final String KEY_FLAG_SHOW = "FLAG_SHOW";
     public static final int FLAG_SHOW_1 = 1;
+    public static final int FLAG_SHOW_2 = 2;
 
     private int mFlagShow;
 
@@ -38,6 +39,8 @@ public class CommonShowFragment extends BaseFragment {
         switch (mFlagShow) {
             case FLAG_SHOW_1:
                 return R.layout.frag_wave_progress_bar;
+            case FLAG_SHOW_2:
+                return R.layout.frag_signature_board;
             default:
                 return 0;
         }
