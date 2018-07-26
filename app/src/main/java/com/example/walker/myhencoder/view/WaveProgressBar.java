@@ -70,7 +70,7 @@ public class WaveProgressBar extends View {
         progress = 0;
 
         mWavePath = new Path();
-        mWavePaint = new Paint();
+        mWavePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mWavePaint.setColor(Color.parseColor("#87CEEB"));
         mWavePaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
@@ -175,8 +175,8 @@ public class WaveProgressBar extends View {
         int halfWaveLen = mItemWaveLength / 2;
         mWavePath.moveTo(-mItemWaveLength + mWaveOriginX, mWaveOriginY);
         for (int i = -mItemWaveLength; i <= getWidth() + mItemWaveLength; i += mItemWaveLength) {
-            mWavePath.rQuadTo(halfWaveLen / 2, -50, halfWaveLen, 0);
-            mWavePath.rQuadTo(halfWaveLen / 2, 50, halfWaveLen, 0);
+            mWavePath.rQuadTo(halfWaveLen / 2, -10, halfWaveLen, 0);
+            mWavePath.rQuadTo(halfWaveLen / 2, 10, halfWaveLen, 0);
         }
         mWavePath.lineTo(getWidth(), getHeight());
         mWavePath.lineTo(0, getHeight());

@@ -42,7 +42,7 @@ public class DrawBitmap extends View {
         super.onDraw(canvas);
 
         Paint paint=new Paint();
-        Bitmap bitmap=BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_batman);
+        Bitmap bitmap=BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_pld);
         canvas.drawBitmap(bitmap, 200, 100, paint);
 
     }

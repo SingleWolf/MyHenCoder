@@ -157,6 +157,7 @@ public class DrawTestFragment extends BaseFragment {
             case 8:
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "水波纹进度条", CommonShowFragment.FLAG_SHOW_1));
                 data.add(new SummaryBean(SignatureBoardFragment.class.getName(), "签名画板", 0));
+                data.add(new SummaryBean(CommonShowFragment.class.getName(), "红绿灯", CommonShowFragment.FLAG_SHOW_3));
                 break;
             default:
                 break;
