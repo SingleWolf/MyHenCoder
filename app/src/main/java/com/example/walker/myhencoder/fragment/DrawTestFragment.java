@@ -153,6 +153,7 @@ public class DrawTestFragment extends BaseFragment {
                 break;
             case 7:
                 data.add(new SummaryBean(DrawRuleViewFragment.class.getName(), "刻度尺", 0));
+                data.add(new SummaryBean(LoadingFragment.class.getName(), "仿抖音加载", 0));
                 break;
             case 8:
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "水波纹进度条", CommonShowFragment.FLAG_SHOW_1));

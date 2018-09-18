@@ -1,5 +1,6 @@
 package com.example.walker.myhencoder.base;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +70,7 @@ public abstract class BaseFragActivity extends AppCompatActivity {
     /**
      * 设置第一个fragment
      */
+    @SuppressLint("RestrictedApi")
     protected void setFirstFragment() {
         //避免重复添加Fragment
         if (null == getSupportFragmentManager().getFragments()) {
