@@ -2,7 +2,6 @@ package com.example.walker.myhencoder;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.widget.TextView;
 
 import com.example.walker.myhencoder.base.BaseFragActivity;
 import com.example.walker.myhencoder.base.BaseFragment;
@@ -25,6 +24,7 @@ public class MainActivity extends BaseFragActivity {
 
     @Override
     protected void initialization(Bundle savedInstanceState) {
+       addFragment(GuideFragment.newInstance(),"FirstFragment");
     }
 
     @Override

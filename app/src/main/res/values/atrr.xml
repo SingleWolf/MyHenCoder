@@ -53,4 +53,16 @@
         <attr name="scaleStartFraction" format="float"/>
         <attr name="scaleEndFraction" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="NumberTicker">
+        <attr name="animDuration" format="integer"/>
+        <attr name="startDelay" format="integer"/>
+        <attr name="moveGap" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SixBallLoadingView">
+        <attr name="sDuration" format="integer"/>
+        <attr name="sRadius" format="dimension"/>
+        <attr name="sColor" format="color"/>
+    </declare-styleable>
 </resources>

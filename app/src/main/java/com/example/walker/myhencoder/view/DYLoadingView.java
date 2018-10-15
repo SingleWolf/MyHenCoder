@@ -235,6 +235,8 @@ public class DYLoadingView extends View {
         }
 
 
+
+
         float ltrX = getMeasuredWidth() / 2.0f - distance / 2.0f;
         ltrX = ltrX + (distance * fraction);//当前从左往右的球的X坐标
 

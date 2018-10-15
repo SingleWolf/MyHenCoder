@@ -18,6 +18,8 @@ public class CommonShowFragment extends BaseFragment {
     public static final int FLAG_SHOW_1 = 1;
     public static final int FLAG_SHOW_2 = 2;
     public static final int FLAG_SHOW_3 = 3;
+    public static final int FLAG_SHOW_4 = 4;
+    public static final int FLAG_SHOW_5 = 5;
 
     private int mFlagShow;
 
@@ -44,6 +46,10 @@ public class CommonShowFragment extends BaseFragment {
                 return R.layout.frag_signature_board;
             case FLAG_SHOW_3:
                 return R.layout.frag_traffic_light;
+            case FLAG_SHOW_4:
+                return R.layout.frag_six_ball_loading;
+            case FLAG_SHOW_5:
+                return R.layout.frag_finger_point;
             default:
                 return 0;
         }
