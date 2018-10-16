@@ -88,14 +88,14 @@ class SixBallLoadingView : View {
             ta.recycle()
         }
 
-        mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mPaint.run {
+        Paint(Paint.ANTI_ALIAS_FLAG).run {
+            mPaint=this
             color = mPaintColor
             style = Paint.Style.FILL
         }
 
-        mValueAnimator = ValueAnimator.ofInt(0, 17)
-        mValueAnimator.run {
+        ValueAnimator.ofInt(0, 17).run {
+            mValueAnimator=this
             duration = mDuration
             repeatCount = ValueAnimator.INFINITE
             interpolator = AccelerateInterpolator()
