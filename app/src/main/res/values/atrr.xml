@@ -65,4 +65,11 @@
         <attr name="sRadius" format="dimension"/>
         <attr name="sColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="ShadowHoleView">
+        <attr name="sh_background_color" format="color" />
+        <attr name="sh_hole_color" format="color" />
+        <attr name="sh_shape_type" format="integer" />
+        <attr name="sh_round_radius" format="dimension" />
+    </declare-styleable>
 </resources>
