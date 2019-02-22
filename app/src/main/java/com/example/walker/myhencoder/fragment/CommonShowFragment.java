@@ -37,13 +37,13 @@ public class CommonShowFragment extends BaseFragment {
         if (data != null) {
             mFlagShow = data.getInt(KEY_FLAG_SHOW, FLAG_SHOW_1);
             if (mFlagShow == FLAG_SHOW_1) {
-                mValueAnimator = ValueAnimator.ofFloat(0, 1);
+                mValueAnimator = ValueAnimator.ofInt(0, 100);
                 mValueAnimator.setDuration(2000);
                 mValueAnimator.setInterpolator(new LinearInterpolator());
                 mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
-                        float progress = (float) animation.getAnimatedValue();
+                        int progress = (int) animation.getAnimatedValue();
                         if (downloadButton != null) {
                             downloadButton.setProgress(progress);
                         }

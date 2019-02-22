@@ -5,7 +5,6 @@ import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
 
 /**
@@ -13,13 +12,13 @@ import android.view.View
  * @date 2019/2/21
  * @desc 下载进度按钮
  */
-class DownloadButton : View {
+class DownloadButton : View, View.OnClickListener {
 
     private lateinit var backgroundPaint: Paint
     private lateinit var textPaint: Paint
     private lateinit var progressPaint: Paint
     private lateinit var cutPath: Path
-    private var progress: Float = 0f
+    private var progress: Int = 0
     private var downloadState: DownloadState = DownloadState.NEED_DOWNLOAD()
     private var tapDelegate: OnTapClickListener? = null
     private var textSizeValue: Float = 17f
@@ -57,6 +56,7 @@ class DownloadButton : View {
         Path().run {
             cutPath = this
         }
+        setOnClickListener(this)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -88,10 +88,10 @@ class DownloadButton : View {
             drawRect(RectF(0f, 0f, widths, heights), backgroundPaint)
             when (downloadState) {
                 is DownloadState.DOWNLOADING -> {
-                    drawRect(RectF(0f, 0f, widths * progress, heights), progressPaint)
+                    drawRect(RectF(0f, 0f, widths * progress / 100, heights), progressPaint)
                 }
                 is DownloadState.COMPLETE_DOWNLOAD -> {
-                    drawRect(RectF(0f, 0f, widths * progress, heights), progressPaint)
+                    drawRect(RectF(0f, 0f, widths * progress / 100, heights), progressPaint)
                 }
             }
             val desc = getDescText()
@@ -102,25 +102,22 @@ class DownloadButton : View {
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event!!.action == MotionEvent.ACTION_DOWN) {
-            when (downloadState) {
-                is DownloadState.NEED_DOWNLOAD -> {
-                    tapDelegate?.onStartDownload()
-                }
-                is DownloadState.DOWNLOADING -> {
-                    tapDelegate?.onDownloading()
-                }
-                is DownloadState.COMPLETE_DOWNLOAD -> {
-                    tapDelegate?.onCompleteDownload()
-                }
-                is DownloadState.EXTRA -> {
-                    tapDelegate?.onExtra()
-                }
+    override fun onClick(v: View?) {
+        when (downloadState) {
+            is DownloadState.NEED_DOWNLOAD -> {
+                setDownloadState(DownloadState.DOWNLOADING())
+                tapDelegate?.onStartDownload()
             }
-            return true
+            is DownloadState.DOWNLOADING -> {
+                tapDelegate?.onDownloading()
+            }
+            is DownloadState.COMPLETE_DOWNLOAD -> {
+                tapDelegate?.onCompleteDownload()
+            }
+            is DownloadState.EXTRA -> {
+                tapDelegate?.onExtra()
+            }
         }
-        return super.onTouchEvent(event)
     }
 
     private fun getDescText() = when (downloadState) {
@@ -140,11 +137,11 @@ class DownloadButton : View {
 
     private fun dp2px(dp: Float): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
 
-    fun setProgress(progressValue: Float) {
+    fun setProgress(progressValue: Int) {
         when (downloadState) {
             is DownloadState.DOWNLOADING -> {
                 progress = progressValue
-                if (progress == 1f) {
+                if (progress == 100) {
                     downloadState = DownloadState.COMPLETE_DOWNLOAD()
                 }
                 postInvalidate()
@@ -175,4 +172,3 @@ class DownloadButton : View {
         class EXTRA(var label: String) : DownloadState()
     }
 }
-
