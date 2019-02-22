@@ -1,5 +1,6 @@
 package com.example.walker.myhencoder.fragment;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,6 @@ public class DrawTestFragment extends BaseFragment {
 
     private DrawTestAdapter mAdapter;
     private List<SummaryBean> mData;
-
     private int mTypeTest;
 
     /**
@@ -156,7 +156,7 @@ public class DrawTestFragment extends BaseFragment {
                 data.add(new SummaryBean(LoadingFragment.class.getName(), "仿抖音加载", 0));
                 break;
             case 8:
-                data.add(new SummaryBean(CommonShowFragment.class.getName(), "水波纹进度条", CommonShowFragment.FLAG_SHOW_1));
+                data.add(new SummaryBean(CommonShowFragment.class.getName(), "进度条", CommonShowFragment.FLAG_SHOW_1));
                 data.add(new SummaryBean(SignatureBoardFragment.class.getName(), "签名画板", 0));
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "红绿灯", CommonShowFragment.FLAG_SHOW_3));
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "六球加载", CommonShowFragment.FLAG_SHOW_4));

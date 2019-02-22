@@ -1,11 +1,16 @@
 package com.example.walker.myhencoder.fragment;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import com.example.walker.myhencoder.R;
 import com.example.walker.myhencoder.base.BaseFragment;
+import com.example.walker.myhencoder.view.DownloadButton;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Walker
@@ -21,7 +26,9 @@ public class CommonShowFragment extends BaseFragment {
     public static final int FLAG_SHOW_4 = 4;
     public static final int FLAG_SHOW_5 = 5;
 
+    private ValueAnimator mValueAnimator;
     private int mFlagShow;
+    private DownloadButton downloadButton;
 
     @Override
     public void onAttach(Context context) {
@@ -29,12 +36,52 @@ public class CommonShowFragment extends BaseFragment {
         Bundle data = getArguments();
         if (data != null) {
             mFlagShow = data.getInt(KEY_FLAG_SHOW, FLAG_SHOW_1);
+            if (mFlagShow == FLAG_SHOW_1) {
+                mValueAnimator = ValueAnimator.ofFloat(0, 1);
+                mValueAnimator.setDuration(2000);
+                mValueAnimator.setInterpolator(new LinearInterpolator());
+                mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float progress = (float) animation.getAnimatedValue();
+                        if (downloadButton != null) {
+                            downloadButton.setProgress(progress);
+                        }
+                    }
+                });
+            }
         }
     }
 
     @Override
     protected void buildView(View baseView, Bundle savedInst) {
+        if (mFlagShow == FLAG_SHOW_1) {
+            downloadButton = (DownloadButton) baseView.findViewById(R.id.downloadButton);
+            downloadButton.setTpaClickListener(new DownloadButton.OnTapClickListener() {
+                @Override
+                public void onStartDownload() {
+                    downloadButton.setDownloadState(new DownloadButton.DownloadState.DOWNLOADING());
+                    if (mValueAnimator != null) {
+                        mValueAnimator.start();
+                    }
+                }
 
+                @Override
+                public void onDownloading() {
+
+                }
+
+                @Override
+                public void onCompleteDownload() {
+
+                }
+
+                @Override
+                public void onExtra() {
+
+                }
+            });
+        }
     }
 
     @Override

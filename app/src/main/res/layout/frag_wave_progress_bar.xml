@@ -8,4 +8,10 @@
     <com.example.walker.myhencoder.view.WaveProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <com.example.walker.myhencoder.view.DownloadButton
+        android:id="@+id/downloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp" />
 </LinearLayout>
