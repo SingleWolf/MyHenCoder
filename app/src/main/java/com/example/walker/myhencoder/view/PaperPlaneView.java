@@ -84,11 +84,10 @@ public class PaperPlaneView extends RelativeLayout implements View.OnClickListen
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec,
-                             int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth = getMeasuredWidth();
-        mHeight = getMeasuredHeight();
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mWidth = w;
+        mHeight = h;
     }
 
     //真正动画开始的入口，从外部进行调用，x、y分别表示飞机进入之后所
@@ -138,7 +137,7 @@ public class PaperPlaneView extends RelativeLayout implements View.OnClickListen
                 .ofFloat(iconView, "translationY",
                         (mHeight - dHeight) / 2, mY);
         transY.setInterpolator(PathInterpolatorCompat
-                        .create(0.7f, 1f));
+                .create(0.7f, 1f));
 
         AnimatorSet flyUpAnim = new AnimatorSet();
         flyUpAnim.setDuration(900);
@@ -154,8 +153,8 @@ public class PaperPlaneView extends RelativeLayout implements View.OnClickListen
         }
     }
 
-    public void setOnImageClickListener(OnImageListener listener){
-        mOnClickListener=listener;
+    public void setOnImageClickListener(OnImageListener listener) {
+        mOnClickListener = listener;
     }
 
     //定义ImageView单击事件
@@ -163,7 +162,7 @@ public class PaperPlaneView extends RelativeLayout implements View.OnClickListen
         void onClick(ImageView v);
     }
 
-    private int dp2px(float dp){
+    private int dp2px(float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 }
