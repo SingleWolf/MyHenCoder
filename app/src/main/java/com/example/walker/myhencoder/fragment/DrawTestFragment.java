@@ -154,6 +154,7 @@ public class DrawTestFragment extends BaseFragment {
             case 7:
                 data.add(new SummaryBean(DrawRuleViewFragment.class.getName(), "刻度尺", 0));
                 data.add(new SummaryBean(LoadingFragment.class.getName(), "加载", 0));
+                data.add(new SummaryBean(AirplaneFragment.class.getName(), "飞机漂流", 0));
                 break;
             case 8:
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "进度条", CommonShowFragment.FLAG_SHOW_1));
