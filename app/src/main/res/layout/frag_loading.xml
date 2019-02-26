@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,4 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="#000000" />
+
+    <com.example.walker.myhencoder.view.FlaskView
+        android:id="@+id/loading_2"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:bubble_color="#fffeaf"
+        app:bubble_creation_interval="70"
+        app:bubble_max_number="50"
+        app:bubble_max_radius="10"
+        app:bubble_max_speed="5"
+        app:bubble_min_radius="5"
+        app:bubble_min_speed="1"
+        app:stroke_color="#b39696"
+        app:stroke_width="2dp"
+        app:water_color="#2b7971"
+        app:water_height_percent="0.8" />
 </android.support.constraint.ConstraintLayout>
