@@ -32,6 +32,7 @@ public class DrawTestFragment extends BaseFragment {
     public static int TYPE_TEST_6 = 6;
     public static int TYPE_TEST_7 = 7;
     public static int TYPE_TEST_8 = 8;
+    public static int TYPE_TEST_9 = 9;
 
     private DrawTestAdapter mAdapter;
     private List<SummaryBean> mData;
@@ -76,8 +77,17 @@ public class DrawTestFragment extends BaseFragment {
                             return;
                         }
                         addFragment(fragment, summary.getDesc());
-                    } else {
+                    } else if (summary.getType() < 100) {
                         CommonShowFragment fragment = (CommonShowFragment) Class.forName(summary.getClazz()).newInstance();
+                        if (fragment == null) {
+                            return;
+                        }
+                        Bundle data = new Bundle();
+                        data.putInt(CommonShowFragment.KEY_FLAG_SHOW, summary.getType());
+                        fragment.setArguments(data);
+                        addFragment(fragment, summary.getDesc());
+                    } else {
+                        DemoPreviewFragment fragment = (DemoPreviewFragment) Class.forName(summary.getClazz()).newInstance();
                         if (fragment == null) {
                             return;
                         }
@@ -162,6 +172,9 @@ public class DrawTestFragment extends BaseFragment {
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "红绿灯", CommonShowFragment.FLAG_SHOW_3));
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "六球加载", CommonShowFragment.FLAG_SHOW_4));
                 data.add(new SummaryBean(CommonShowFragment.class.getName(), "指纹跟踪", CommonShowFragment.FLAG_SHOW_5));
+                break;
+            case 9:
+                data.add(new SummaryBean(DemoPreviewFragment.class.getName(), "礼物泡层", DemoPreviewFragment.FLAG_SHOW_1));
                 break;
             default:
                 break;

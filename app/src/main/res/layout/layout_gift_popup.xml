@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:background="@drawable/bg_gift_top_popup"
+        android:gravity="left|center"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="送给"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <ImageView
+            android:id="@+id/ivReceiverAvatar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/tvNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小仙女姐姐"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <com.example.walker.myhencoder.demo.gift.view.page.PageRecyclerView
+        android:id="@+id/contentGift"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/color_gift_popup_theme" />
+
+    <com.example.walker.myhencoder.demo.gift.view.page.PageIndicatorView
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="@color/color_gift_popup_theme" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_gift_popup_theme"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tvEnableCoin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_gift_coin"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="9886"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvGiftCount"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rect_00b1f8_stroke_left_radius_10"
+            android:drawableRight="@drawable/ic_arrow_down_white"
+            android:gravity="left|center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/tvSend"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rect_00b1f8_fill_right_radius_10"
+            android:gravity="center"
+            android:text="赠送"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </LinearLayout>
+</LinearLayout>
