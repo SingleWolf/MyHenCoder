@@ -107,4 +107,14 @@
         <!--The water level to the percentage of the height of the flask-->
         <attr name="water_height_percent" format="float"></attr>
     </declare-styleable>
+    <!--裁剪图片-->
+    <declare-styleable name="ClipViewLayout">
+        <attr name="clipType" format="enum">
+            <enum name="circle" value="1" />
+            <enum name="rectangle" value="2" />
+            <enum name="palace" value="3" />
+        </attr>
+        <attr name="horizontalPadding" format="dimension" />
+        <attr name="clipBorderWidth" format="dimension" />
+    </declare-styleable>
 </resources>

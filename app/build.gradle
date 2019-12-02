@@ -39,6 +39,7 @@ dependencies {
     api 'com.walker.drip:core:1.0.8'
     api 'com.dasu.image:blur:0.0.5'
     api 'com.yanzhenjie:permission:2.0.0-rc12'
+
 }
 
 repositories {

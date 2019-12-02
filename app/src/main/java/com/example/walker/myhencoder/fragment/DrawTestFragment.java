@@ -175,6 +175,7 @@ public class DrawTestFragment extends BaseFragment {
                 break;
             case 9:
                 data.add(new SummaryBean(DemoPreviewFragment.class.getName(), "礼物泡层", DemoPreviewFragment.FLAG_SHOW_1));
+                data.add(new SummaryBean(DemoPreviewFragment.class.getName(), "相片裁剪", DemoPreviewFragment.FLAG_SHOW_2));
                 break;
             default:
                 break;
