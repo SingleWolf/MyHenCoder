@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -71,6 +72,7 @@ public class ClipView extends View {
     private float mScaleClipHW;
 
     private String message;
+    private boolean isMessagePortrait = true;
 
     public ClipView(Context context) {
         this(context, null);
@@ -204,6 +206,7 @@ public class ClipView extends View {
      * @param isPortrait 是否为竖屏
      */
     public void refreshOrientationChanged(boolean isPortrait) {
+        isMessagePortrait = isPortrait;
         resetWidthByOrientation(isPortrait);
         postInvalidate();
     }
@@ -224,8 +227,8 @@ public class ClipView extends View {
 
     }
 
-    public void setMessageTip(String messageTip){
-        message=messageTip;
+    public void setMessageTip(String messageTip) {
+        message = messageTip;
     }
 
     public float getScaleClipHW() {
@@ -406,13 +409,20 @@ public class ClipView extends View {
     }
 
     private void drawMessage(Canvas canvas) {
-        if(TextUtils.isEmpty(message)){
+        if (TextUtils.isEmpty(message)) {
             return;
         }
-        textPaint.measureText(message);
-        // 文字baseline在y轴方向的位置
-        float baseLineY = Math.abs(textPaint.ascent() + textPaint.descent()) / 2;
-        canvas.drawText(message, this.getWidth() / 2, this.getHeight() / 2 - clipHeight / 2 - 30 + baseLineY, textPaint);
+        float textWidth = textPaint.measureText(message);
+        if (isMessagePortrait) {//横向展示文字
+            // 文字baseline在y轴方向的位置
+            float baseLineY = Math.abs(textPaint.ascent() + textPaint.descent()) / 2;
+            canvas.drawText(message, this.getWidth() / 2, this.getHeight() / 2 - clipHeight / 2 - 30 + baseLineY, textPaint);
+        } else {//纵向展示文字
+            Path path = new Path();
+            path.moveTo(this.getWidth() - mHorizontalPadding, this.getHeight() / 2 - textWidth / 2);
+            path.lineTo(this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + textWidth / 2);
+            canvas.drawTextOnPath(message, path, 0, 0, textPaint);
+        }
     }
 
     public static int dip2px(@Nullable Context context, float dpValue) {
