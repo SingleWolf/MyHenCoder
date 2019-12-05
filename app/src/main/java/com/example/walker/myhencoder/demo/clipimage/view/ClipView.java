@@ -227,6 +227,36 @@ public class ClipView extends View {
 
     }
 
+    /**
+     * 设置裁剪框水平间距(A4纸效果)
+     *
+     * @param horizontalPadding 水平间距
+     */
+    public void setHorizontalPaddingForA4(float horizontalPadding) {
+        this.mHorizontalPadding = horizontalPadding;
+        int screenWidth = getScreenWidth(getContext());
+        int screenHeight = getScreenHeight(getContext());
+        this.clipRadiusWidth = (int) (Math.min(screenWidth, screenHeight) - 2 * mHorizontalPadding) / 2;
+        this.clipWidth = (int) (Math.min(screenWidth, screenHeight) - 2 * mHorizontalPadding);
+        float clipHeightValue =  clipWidth / mScaleClipHW;
+        //边界保护
+        if (screenHeight - 4 * mHorizontalPadding < clipHeightValue) {
+            clipHeightValue=screenHeight - 4 * mHorizontalPadding;
+        }
+        this.clipHeight= (int) clipHeightValue;
+        Log.i(TAG, String.format("screenWidth:%d  screenHeight:%d  clipWidth:%d  clipHeight:%d  clipRadiusWidth:%d ", screenWidth, screenHeight, clipWidth, clipHeight, clipRadiusWidth));
+    }
+
+    /**
+     * 因为屏幕方向发生变化，重新刷新布局(A4纸效果)
+     *
+     * @param isPortrait 是否为竖屏
+     */
+    public void refreshOrientationChangedForA4(boolean isPortrait) {
+        isMessagePortrait = isPortrait;
+        postInvalidate();
+    }
+
     public void setMessageTip(String messageTip) {
         message = messageTip;
     }

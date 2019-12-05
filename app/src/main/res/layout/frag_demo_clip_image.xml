@@ -24,6 +24,16 @@
         android:text="拍照取景"
         android:textColor="@color/white" />
 
+    <TextView
+        android:id="@+id/tvCameraCropForA4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_rect_00b1f8_fill_radius_10"
+        android:gravity="center"
+        android:text="拍照取景(A4纸效果)"
+        android:textColor="@color/white" />
+
     <ImageView
         android:id="@+id/ivPreview"
         android:layout_width="match_parent"

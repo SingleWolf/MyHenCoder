@@ -34,6 +34,7 @@ public class CameraCropActivity extends Activity {
     public static final String CLIP_SCALE_HW = "clip_scale_hw";
     public static final String TITLE_NAME = "title_name";
     public static final String DEST_FILE = "dest_file";
+    public static final String IS_A4 = "is_a4";
 
     private CameraPreview cameraPreview;
     private ClipView mClipView;
@@ -48,6 +49,7 @@ public class CameraCropActivity extends Activity {
     private float mClipScaleHW;
     private String mTitleName;
     private String mDestFile;
+    private boolean mIsA4;
 
     /**
      * 开启操作
@@ -69,6 +71,28 @@ public class CameraCropActivity extends Activity {
         ActivityResultHelper.init(activity).startActivityForResult(intent, callback);
     }
 
+    /**
+     * 开启操作
+     *
+     * @param activity     上下文宿主
+     * @param destSaveFile 指定路径
+     * @param clipType     裁剪类型（圆、矩形、九宫格）
+     * @param clipScaleHW  裁剪框的高宽比
+     * @param titleName    标题名称
+     * @param isA4         是否A4纸效果
+     * @param callback     结果回传
+     */
+    public static void actionStart(Activity activity, String destSaveFile, int clipType, float clipScaleHW, String titleName, boolean isA4, ActivityResultHelper.Callback callback) {
+        Intent intent = new Intent();
+        intent.setClass(activity, CameraCropActivity.class);
+        intent.putExtra(DEST_FILE, destSaveFile);
+        intent.putExtra(CLIP_TYPE, clipType);
+        intent.putExtra(CLIP_SCALE_HW, clipScaleHW);
+        intent.putExtra(TITLE_NAME, titleName);
+        intent.putExtra(IS_A4, isA4);
+        ActivityResultHelper.init(activity).startActivityForResult(intent, callback);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +107,7 @@ public class CameraCropActivity extends Activity {
         mClipScaleHW = getIntent().getFloatExtra(CLIP_SCALE_HW, 0.6f);
         mTitleName = getIntent().getStringExtra(TITLE_NAME);
         mDestFile = getIntent().getStringExtra(DEST_FILE);
+        mIsA4 = getIntent().getBooleanExtra(IS_A4, false);
     }
 
     private void initView() {
@@ -94,7 +119,11 @@ public class CameraCropActivity extends Activity {
         //设置剪切框边框
         mClipView.setClipBorderWidth(ClipView.dip2px(this, 2f));
         //设置剪切框水平间距
-        mClipView.setHorizontalPadding(ClipView.dip2px(this, 30f));
+        if (mIsA4) {
+            mClipView.setHorizontalPaddingForA4(ClipView.dip2px(this, 30f));
+        } else {
+            mClipView.setHorizontalPadding(ClipView.dip2px(this, 30f));
+        }
 
         //监听屏幕方向
         mOrientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
@@ -106,7 +135,11 @@ public class CameraCropActivity extends Activity {
                     if (!mIsOrientationPortrait) {
                         mIsOrientationPortrait = true;
                         if (mClipView != null) {
-                            mClipView.refreshOrientationChanged(true);
+                            if (mIsA4) {
+                                mClipView.refreshOrientationChangedForA4(true);
+                            } else {
+                                mClipView.refreshOrientationChanged(true);
+                            }
                         }
                     }
                 } else if (mIsOrientationEnable && (((orientation > 45) && (orientation < 135))
@@ -115,7 +148,11 @@ public class CameraCropActivity extends Activity {
                     if (mIsOrientationPortrait) {
                         mIsOrientationPortrait = false;
                         if (mClipView != null) {
-                            mClipView.refreshOrientationChanged(false);
+                            if (mIsA4) {
+                                mClipView.refreshOrientationChangedForA4(false);
+                            } else {
+                                mClipView.refreshOrientationChanged(false);
+                            }
                         }
                     }
                 }

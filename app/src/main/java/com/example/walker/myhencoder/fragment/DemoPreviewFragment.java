@@ -77,6 +77,7 @@ public class DemoPreviewFragment extends BaseFragment {
         } else if (mFlagShow == FLAG_SHOW_2) {
             imageView = baseView.findViewById(R.id.ivPreview);
             baseView.findViewById(R.id.tvCameraCrop).setOnClickListener(v -> onCameraCrop());
+            baseView.findViewById(R.id.tvCameraCropForA4).setOnClickListener(v -> onCameraCropForA4());
             baseView.findViewById(R.id.tvImageClip).setOnClickListener(v -> onImageClip());
         }
     }
@@ -106,8 +107,27 @@ public class DemoPreviewFragment extends BaseFragment {
     private void onCameraCrop() {
         AndPermission.with(getHoldActivity())
                 .runtime()
-                .permission(Permission.Group.CAMERA,Permission.Group.STORAGE)
-                .onGranted(permissions -> CameraCropHelper.get().take(getHoldActivity(), "", 0.6f, "请对准取景框拍摄", (resultCode, data) -> {
+                .permission(Permission.Group.CAMERA, Permission.Group.STORAGE)
+                .onGranted(permissions -> CameraCropHelper.get().take(getHoldActivity(), "", 0.8f, "请对准取景框拍摄", (resultCode, data) -> {
+                    if (resultCode == RESULT_OK) {
+                        if (data != null) {
+                            String filePath = data.getStringExtra(CameraCropHelper.IMAGE_PATH);
+                            if (imageView != null && !TextUtils.isEmpty(filePath)) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    }
+                }))
+                .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
+                .start();
+    }
+
+    private void onCameraCropForA4() {
+        AndPermission.with(getHoldActivity())
+                .runtime()
+                .permission(Permission.Group.CAMERA, Permission.Group.STORAGE)
+                .onGranted(permissions -> CameraCropHelper.get().take(getHoldActivity(), "", 0.8f, "请对准取景框拍摄", true, (resultCode, data) -> {
                     if (resultCode == RESULT_OK) {
                         if (data != null) {
                             String filePath = data.getStringExtra(CameraCropHelper.IMAGE_PATH);
@@ -173,14 +193,14 @@ public class DemoPreviewFragment extends BaseFragment {
     }
 
 
-  private void onClipByCamera(){
-      AndPermission.with(getHoldActivity())
-              .runtime()
-              .permission(Permission.Group.CAMERA)
-              .onGranted(permissions -> gotoCamera())
-              .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
-              .start();
-  }
+    private void onClipByCamera() {
+        AndPermission.with(getHoldActivity())
+                .runtime()
+                .permission(Permission.Group.CAMERA)
+                .onGranted(permissions -> gotoCamera())
+                .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
+                .start();
+    }
 
     /**
      * 跳转到照相机
@@ -214,7 +234,7 @@ public class DemoPreviewFragment extends BaseFragment {
         switch (requestCode) {
             case REQUEST_CAPTURE: //调用系统相机返回
                 if (resultCode == RESULT_OK) {
-                    Uri uri =  Uri.fromFile(tempFile);
+                    Uri uri = Uri.fromFile(tempFile);
                     ClipImageHelper.get().clip(getHoldActivity(), uri, ClipImageHelper.get().getDefaultImagePath(), 0.8f, "", (resultCode1, data) -> {
                         if (resultCode1 == RESULT_OK) {
                             if (data != null) {
@@ -231,7 +251,7 @@ public class DemoPreviewFragment extends BaseFragment {
             case REQUEST_PICK:  //调用系统相册返回
                 if (resultCode == RESULT_OK) {
                     Uri uri = intent.getData();
-                    ClipImageHelper.get().clip(getHoldActivity(),uri, ClipImageHelper.get().getDefaultImagePath(), 0.8f, "", (resultCode2, data) -> {
+                    ClipImageHelper.get().clip(getHoldActivity(), uri, ClipImageHelper.get().getDefaultImagePath(), 0.8f, "", (resultCode2, data) -> {
                         if (resultCode2 == RESULT_OK) {
                             if (data != null) {
                                 String filePath = data.getStringExtra(ClipImageHelper.CLIP_PATH);

@@ -14,7 +14,7 @@ import java.io.File;
  * @Summary 拍照裁剪辅助类
  */
 public class CameraCropHelper {
-    public static final String IMAGE_PATH="image_path";
+    public static final String IMAGE_PATH = "image_path";
     private static CameraCropHelper sInstance;
 
     private CameraCropHelper() {
@@ -33,9 +33,10 @@ public class CameraCropHelper {
 
     /**
      * 获得默认的图片路径
+     *
      * @return
      */
-    public String getDefaultImagePath(){
+    public String getDefaultImagePath() {
         return Environment.getExternalStorageDirectory() + File.separator + "Walker/TakePhoto/" + System.currentTimeMillis() + ".jpg";
     }
 
@@ -48,8 +49,22 @@ public class CameraCropHelper {
      * @param titleName    标题名称
      * @param callback     结果回传
      */
-    public void take(Activity activity,  String destSaveFile, float clipScaleHW, String titleName, ActivityResultHelper.Callback callback) {
+    public void take(Activity activity, String destSaveFile, float clipScaleHW, String titleName, ActivityResultHelper.Callback callback) {
         CameraCropActivity.actionStart(activity, destSaveFile, ClipView.TYPE_PALACE, clipScaleHW, titleName, callback);
+    }
+
+    /**
+     * 裁剪
+     *
+     * @param activity     上下文宿主
+     * @param destSaveFile 指定路径
+     * @param clipScaleHW  裁剪框的高宽比
+     * @param titleName    标题名称
+     * @param isA4         是否A4效果
+     * @param callback     结果回传
+     */
+    public void take(Activity activity, String destSaveFile, float clipScaleHW, String titleName, boolean isA4, ActivityResultHelper.Callback callback) {
+        CameraCropActivity.actionStart(activity, destSaveFile, ClipView.TYPE_PALACE, clipScaleHW, titleName, isA4, callback);
     }
 
 }
