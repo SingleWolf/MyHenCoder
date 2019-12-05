@@ -106,8 +106,8 @@ public class DemoPreviewFragment extends BaseFragment {
     private void onCameraCrop() {
         AndPermission.with(getHoldActivity())
                 .runtime()
-                .permission(Permission.Group.CAMERA)
-                .onGranted(permissions -> CameraCropHelper.get().take(getHoldActivity(), "", 0.8f, "请对准取景框拍摄", (resultCode, data) -> {
+                .permission(Permission.Group.CAMERA,Permission.Group.STORAGE)
+                .onGranted(permissions -> CameraCropHelper.get().take(getHoldActivity(), "", 0.6f, "请对准取景框拍摄", (resultCode, data) -> {
                     if (resultCode == RESULT_OK) {
                         if (data != null) {
                             String filePath = data.getStringExtra(CameraCropHelper.IMAGE_PATH);

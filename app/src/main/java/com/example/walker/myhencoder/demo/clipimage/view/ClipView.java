@@ -419,8 +419,8 @@ public class ClipView extends View {
             canvas.drawText(message, this.getWidth() / 2, this.getHeight() / 2 - clipHeight / 2 - 30 + baseLineY, textPaint);
         } else {//纵向展示文字
             Path path = new Path();
-            path.moveTo(this.getWidth() - mHorizontalPadding, this.getHeight() / 2 - textWidth / 2);
-            path.lineTo(this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + textWidth / 2);
+            path.moveTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 - textWidth / 2);
+            path.lineTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 + textWidth / 2);
             canvas.drawTextOnPath(message, path, 0, 0, textPaint);
         }
     }
