@@ -161,14 +161,14 @@ public class BitmapUtil {
         int degrees = getExifRotateDegree(filePath);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
-        Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length,options);
-        photo = rotateBitmap(photo,degrees);
+        Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        photo = rotateBitmap(photo, degrees);
         int scW = ScreenUtils.getScreenWidth(context);
         int scH = ScreenUtils.getScreenHeight(context);
-        float ratio = scW  * 1.0f / photo.getWidth();
-        photo = Bitmap.createScaledBitmap(photo, (int)(photo.getWidth() * ratio), (int)(photo.getHeight() *ratio), true);
+        float ratio = scW * 1.0f / photo.getWidth();
+        photo = Bitmap.createScaledBitmap(photo, (int) (photo.getWidth() * ratio), (int) (photo.getHeight() * ratio), true);
         if (isNeedCut) {
-            photo = Bitmap.createBitmap(photo, rectLeft*photo.getWidth()/scW, rectTop* photo.getHeight() / scH , rectWidth*photo.getWidth()/scW, rectHeight* photo.getHeight() / scH);
+            photo = Bitmap.createBitmap(photo, rectLeft * photo.getWidth() / scW, rectTop * photo.getHeight() / scH, rectWidth * photo.getWidth() / scW, rectHeight * photo.getHeight() / scH);
         }
         if (photo != null) {
             compressImageToFile(photo, file);
@@ -179,10 +179,41 @@ public class BitmapUtil {
 
     }
 
-    private static int getExifRotateDegree(String path){
+    public static File saveBitMap(Context context, String filePath, final byte[] data, int rectLeft, int rectTop, int rectWidth, int rectHeight, boolean isNeedCut, int destDegrees) throws IOException {
+        File file = new File(filePath);
+        try {
+            FileOutputStream fos = new FileOutputStream(file, true);
+            fos.write(data);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int degrees = getExifRotateDegree(filePath);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        Bitmap photo = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        photo = rotateBitmap(photo, degrees);
+        int scW = ScreenUtils.getScreenWidth(context);
+        int scH = ScreenUtils.getScreenHeight(context);
+        float ratio = scW * 1.0f / photo.getWidth();
+        photo = Bitmap.createScaledBitmap(photo, (int) (photo.getWidth() * ratio), (int) (photo.getHeight() * ratio), true);
+        if (isNeedCut) {
+            photo = Bitmap.createBitmap(photo, rectLeft * photo.getWidth() / scW, rectTop * photo.getHeight() / scH, rectWidth * photo.getWidth() / scW, rectHeight * photo.getHeight() / scH);
+        }
+        photo = rotateBitmap(photo, destDegrees);
+        if (photo != null) {
+            compressImageToFile(photo, file);
+            return file;
+        } else {
+            return null;
+        }
+
+    }
+
+    private static int getExifRotateDegree(String path) {
         try {
             ExifInterface exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             int degrees = getExifRotateDegrees(orientation);
             return degrees;
         } catch (IOException e) {
@@ -227,7 +258,7 @@ public class BitmapUtil {
     }
 
 
-    public static void compressImageToFile(Bitmap bmp,File file) {
+    public static void compressImageToFile(Bitmap bmp, File file) {
         int options = 100;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);

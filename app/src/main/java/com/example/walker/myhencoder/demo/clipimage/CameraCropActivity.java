@@ -215,7 +215,11 @@ public class CameraCropActivity extends Activity {
                 }
                 try {
                     Rect rect = mClipView.getClipRect();
-                    BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true);
+                    if (mIsA4 && mIsOrientationPortrait == false) {
+                        BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true, 270);
+                    } else {
+                        BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true);
+                    }
                     mIsOrientationEnable = false;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
