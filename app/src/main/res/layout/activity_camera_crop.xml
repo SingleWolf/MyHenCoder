@@ -17,6 +17,7 @@
         android:layout_centerInParent="true"/>
 
     <LinearLayout
+        android:id="@+id/controlViewBottom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
@@ -32,7 +33,7 @@
             android:onClick="onCancel"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_close_white_24dp"/>
+            android:src="@drawable/ic_cancel_white_24dp"/>
 
         <View
             android:layout_width="0dp"
@@ -43,7 +44,44 @@
             android:onClick="onTake"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_check_white_24dp"/>
+            android:src="@drawable/ic_camera_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/controlViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:onClick="onTake"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_camera_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <ImageView
+            android:onClick="onCancel"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_cancel_white_24dp"/>
 
         <View
             android:layout_width="0dp"

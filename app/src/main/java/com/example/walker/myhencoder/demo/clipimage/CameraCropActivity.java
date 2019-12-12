@@ -38,6 +38,8 @@ public class CameraCropActivity extends Activity {
 
     private CameraPreview cameraPreview;
     private ClipView mClipView;
+    private View mControlViewTop;
+    private View mControlViewBottom;
     // 设备方向监听器
     private OrientationEventListener mOrientationListener;
     //当前是否为竖屏方向
@@ -50,6 +52,7 @@ public class CameraCropActivity extends Activity {
     private String mTitleName;
     private String mDestFile;
     private boolean mIsA4;
+    private Direction mDirection;
 
     /**
      * 开启操作
@@ -108,10 +111,13 @@ public class CameraCropActivity extends Activity {
         mTitleName = getIntent().getStringExtra(TITLE_NAME);
         mDestFile = getIntent().getStringExtra(DEST_FILE);
         mIsA4 = getIntent().getBooleanExtra(IS_A4, false);
+        mDirection = new Direction();
     }
 
     private void initView() {
         cameraPreview = findViewById(R.id.camera_surface);
+        mControlViewTop = findViewById(R.id.controlViewTop);
+        mControlViewBottom = findViewById(R.id.controlViewBottom);
         mClipView = findViewById(R.id.clip_view);
         mClipView.setClipType(ClipView.TYPE_PALACE);
         mClipView.setScaleClipHW(mClipScaleHW);
@@ -131,12 +137,14 @@ public class CameraCropActivity extends Activity {
             public void onOrientationChanged(int orientation) {
                 if (mIsOrientationEnable && (((orientation >= 0) && (orientation <= 45)) || (orientation >= 315)
                         || ((orientation >= 135) && (orientation <= 225)))) {// portrait
-                    Log.i(TAG, "竖屏");
                     if (!mIsOrientationPortrait) {
+                        Log.i(TAG, "竖屏");
                         mIsOrientationPortrait = true;
                         if (mClipView != null) {
                             if (mIsA4) {
-                                mClipView.refreshOrientationChangedForA4(true);
+                                mDirection.setOrientation(orientation);
+                                resetControlView();
+                                mClipView.refreshOrientationChangedForA4(true, orientation);
                             } else {
                                 mClipView.refreshOrientationChanged(true);
                             }
@@ -144,12 +152,14 @@ public class CameraCropActivity extends Activity {
                     }
                 } else if (mIsOrientationEnable && (((orientation > 45) && (orientation < 135))
                         || ((orientation > 225) && (orientation < 315)))) {// landscape
-                    Log.i(TAG, "横屏");
                     if (mIsOrientationPortrait) {
+                        Log.i(TAG, "横屏");
                         mIsOrientationPortrait = false;
                         if (mClipView != null) {
                             if (mIsA4) {
-                                mClipView.refreshOrientationChangedForA4(false);
+                                mDirection.setOrientation(orientation);
+                                resetControlView();
+                                mClipView.refreshOrientationChangedForA4(false, orientation);
                             } else {
                                 mClipView.refreshOrientationChanged(false);
                             }
@@ -215,8 +225,16 @@ public class CameraCropActivity extends Activity {
                 }
                 try {
                     Rect rect = mClipView.getClipRect();
-                    if (mIsA4 && mIsOrientationPortrait == false) {
-                        BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true, 270);
+                    if (mIsA4) {
+                        int destDegress = 0;
+                        if (mDirection.getDirection() == Direction.RIGHT) {
+                            destDegress = 270;
+                        } else if (mDirection.getDirection() == Direction.BOTTOM) {
+                            destDegress = 180;
+                        } else if (mDirection.getDirection() == Direction.LEFT) {
+                            destDegress = 90;
+                        }
+                        BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true, destDegress);
                     } else {
                         BitmapUtil.saveBitMap(CameraCropActivity.this, mDestFile, data, rect.left, rect.top, rect.width(), rect.height(), true);
                     }
@@ -236,5 +254,23 @@ public class CameraCropActivity extends Activity {
             e.printStackTrace();
         }
 
+    }
+
+    private void showControlView(boolean isTop) {
+        if (isTop) {
+            mControlViewTop.setVisibility(View.VISIBLE);
+            mControlViewBottom.setVisibility(View.GONE);
+        } else {
+            mControlViewBottom.setVisibility(View.VISIBLE);
+            mControlViewTop.setVisibility(View.GONE);
+        }
+    }
+
+    private void resetControlView() {
+        if (mDirection.getDirection() == Direction.LEFT || mDirection.getDirection() == Direction.BOTTOM) {
+            showControlView(true);
+        } else {
+            showControlView(false);
+        }
     }
 }

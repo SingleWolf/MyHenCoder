@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.walker.myhencoder.demo.clipimage.Direction;
+
 
 /**
  * @Author Walker
@@ -73,6 +75,7 @@ public class ClipView extends View {
 
     private String message;
     private boolean isMessagePortrait = true;
+    private Direction mMessageDirection;
 
     public ClipView(Context context) {
         this(context, null);
@@ -207,6 +210,11 @@ public class ClipView extends View {
      */
     public void refreshOrientationChanged(boolean isPortrait) {
         isMessagePortrait = isPortrait;
+        if (isPortrait) {
+            mMessageDirection.setTop();
+        } else {
+            mMessageDirection.setRight();
+        }
         resetWidthByOrientation(isPortrait);
         postInvalidate();
     }
@@ -238,12 +246,12 @@ public class ClipView extends View {
         int screenHeight = getScreenHeight(getContext());
         this.clipRadiusWidth = (int) (Math.min(screenWidth, screenHeight) - 2 * mHorizontalPadding) / 2;
         this.clipWidth = (int) (Math.min(screenWidth, screenHeight) - 2 * mHorizontalPadding);
-        float clipHeightValue =  clipWidth / mScaleClipHW;
+        float clipHeightValue = clipWidth / mScaleClipHW;
         //边界保护
         if (screenHeight - 4 * mHorizontalPadding < clipHeightValue) {
-            clipHeightValue=screenHeight - 4 * mHorizontalPadding;
+            clipHeightValue = screenHeight - 4 * mHorizontalPadding;
         }
-        this.clipHeight= (int) clipHeightValue;
+        this.clipHeight = (int) clipHeightValue;
         Log.i(TAG, String.format("screenWidth:%d  screenHeight:%d  clipWidth:%d  clipHeight:%d  clipRadiusWidth:%d ", screenWidth, screenHeight, clipWidth, clipHeight, clipRadiusWidth));
     }
 
@@ -254,6 +262,23 @@ public class ClipView extends View {
      */
     public void refreshOrientationChangedForA4(boolean isPortrait) {
         isMessagePortrait = isPortrait;
+        if (isPortrait) {
+            mMessageDirection.setTop();
+        } else {
+            mMessageDirection.setRight();
+        }
+        postInvalidate();
+    }
+
+    /**
+     * 因为屏幕方向发生变化，重新刷新布局(A4纸效果)
+     *
+     * @param isPortrait  是否为竖屏
+     * @param orientation 旋转角度
+     */
+    public void refreshOrientationChangedForA4(boolean isPortrait, int orientation) {
+        isMessagePortrait = isPortrait;
+        mMessageDirection.setOrientation(orientation);
         postInvalidate();
     }
 
@@ -368,6 +393,7 @@ public class ClipView extends View {
         mCornerLength = dip2px(context, 25);
 
         mScaleClipHW = DEFAULT_SCALE_HW;
+        mMessageDirection = new Direction();
     }
 
     private void drawGuidelines(@NonNull Canvas canvas, Rect clipRect) {
@@ -444,13 +470,25 @@ public class ClipView extends View {
         }
         float textWidth = textPaint.measureText(message);
         if (isMessagePortrait) {//横向展示文字
-            // 文字baseline在y轴方向的位置
-            float baseLineY = Math.abs(textPaint.ascent() + textPaint.descent()) / 2;
-            canvas.drawText(message, this.getWidth() / 2, this.getHeight() / 2 - clipHeight / 2 - 30 + baseLineY, textPaint);
+            if (mMessageDirection.getDirection() == Direction.TOP) {//顶部绘制文字
+                // 文字baseline在y轴方向的位置
+                float baseLineY = Math.abs(textPaint.ascent() + textPaint.descent()) / 2;
+                canvas.drawText(message, this.getWidth() / 2, this.getHeight() / 2 - clipHeight / 2 - 30 + baseLineY, textPaint);
+            } else {//底部绘制文字
+                Path path = new Path();
+                path.moveTo(this.getWidth() / 2 + textWidth / 2, this.getHeight() / 2 + clipHeight / 2 + mHorizontalPadding / 2);
+                path.lineTo(this.getWidth() / 2 - textWidth / 2, this.getHeight() / 2 + clipHeight / 2 + mHorizontalPadding / 2);
+                canvas.drawTextOnPath(message, path, 0, 0, textPaint);
+            }
         } else {//纵向展示文字
             Path path = new Path();
-            path.moveTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 - textWidth / 2);
-            path.lineTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 + textWidth / 2);
+            if (mMessageDirection.getDirection() == Direction.RIGHT) {//右侧绘制文字
+                path.moveTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 - textWidth / 2);
+                path.lineTo(this.getWidth() / 2 + clipWidth / 2 + mHorizontalPadding / 2, this.getHeight() / 2 + textWidth / 2);
+            } else {//左侧绘制文字
+                path.moveTo(this.getWidth() / 2 - clipWidth / 2 - mHorizontalPadding / 2, this.getHeight() / 2 + textWidth / 2);
+                path.lineTo(this.getWidth() / 2 - clipWidth / 2 - mHorizontalPadding / 2, this.getHeight() / 2 - textWidth / 2);
+            }
             canvas.drawTextOnPath(message, path, 0, 0, textPaint);
         }
     }
