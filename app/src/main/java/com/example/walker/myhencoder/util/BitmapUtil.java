@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.util.Log;
 
@@ -207,7 +208,6 @@ public class BitmapUtil {
         } else {
             return null;
         }
-
     }
 
     private static int getExifRotateDegree(String path) {
@@ -270,6 +270,78 @@ public class BitmapUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 在竖屏拍照模式下按照取景框裁剪图片
+     *
+     * @param context      上下文
+     * @param savePath     文件保存路径
+     * @param sourceBitmap 源图片（这里的源图片必须已经自动调整到主视角模式）
+     * @param rect         取景框位置
+     * @param isNeedCut    是否裁剪
+     */
+    public static void cropImageWithPortrait(Context context, String savePath, Bitmap sourceBitmap, Rect rect, boolean isNeedCut) {
+        Log.i(TAG,"cropImageWithPortrait");
+        if(sourceBitmap==null){
+            return;
+        }
+        int bitmapW = sourceBitmap.getWidth();
+        int bitmapH = sourceBitmap.getHeight();
+
+        Bitmap goalBitmap;
+        int scW = ScreenUtils.getScreenWidth(context);
+        int scH = ScreenUtils.getScreenHeight(context);
+
+        float ratioW = rect.width() * 1.0f / scW;
+        float ratioH = rect.height() * 1.0f / scH;
+        if (isNeedCut) {
+            goalBitmap = Bitmap.createBitmap(sourceBitmap, rect.left * bitmapW / scW, rect.top * bitmapH / scH, (int) (ratioW * bitmapW), (int) (ratioH * bitmapH));
+            sourceBitmap.recycle();
+        } else {
+            goalBitmap = sourceBitmap;
+        }
+
+        FileUtil.saveBitmap2Path(goalBitmap, savePath);
+    }
+
+    /**
+     * 在横屏拍照模式下按照取景框裁剪图片
+     *
+     * @param context      上下文
+     * @param savePath     文件保存路径
+     * @param sourceBitmap 源图片（这里的源图片必须已经自动调整到主视角模式）
+     * @param rect         取景框位置
+     * @param isNeedCut    是否裁剪
+     */
+    public static void cropImageWithLand(Context context, String savePath, Bitmap sourceBitmap, Rect rect, boolean isNeedCut) {
+        Log.i(TAG,"cropImageWithLand");
+        if(sourceBitmap==null){
+            return;
+        }
+        int bitmapW = sourceBitmap.getWidth();
+        int bitmapH = sourceBitmap.getHeight();
+
+        Bitmap goalBitmap;
+        int scW = ScreenUtils.getScreenWidth(context);
+        int scH = ScreenUtils.getScreenHeight(context);
+
+        //模拟取景框的旋转
+        int clipW = (int) (scW * 1.0f / scH * rect.height());
+        int clipH = (int) (scH * 1.0f / scW * rect.width());
+        int clipLeft = (scW - clipW) / 2;
+        int clipTop = (scH - clipH) / 2;
+
+        float ratioW = clipW * 1.0f / scW;
+        float ratioH = clipH * 1.0f / scH;
+        if (isNeedCut) {
+            goalBitmap = Bitmap.createBitmap(sourceBitmap, clipLeft * bitmapW / scW, clipTop * bitmapH / scH, (int) (ratioW * bitmapW), (int) (ratioH * bitmapH));
+            sourceBitmap.recycle();
+        } else {
+            goalBitmap = sourceBitmap;
+        }
+
+        FileUtil.saveBitmap2Path(goalBitmap, savePath);
     }
 
 }

@@ -67,4 +67,31 @@ public class CameraCropHelper {
         CameraCropActivity.actionStart(activity, destSaveFile, ClipView.TYPE_PALACE, clipScaleHW, titleName, isA4, callback);
     }
 
+    /**
+     * 高质量裁剪
+     *
+     * @param activity     上下文宿主
+     * @param destSaveFile 指定路径
+     * @param clipScaleHW  裁剪框的高宽比
+     * @param titleName    标题名称
+     * @param callback     结果回传
+     */
+    public void takePlus(Activity activity, String destSaveFile, float clipScaleHW, String titleName, ActivityResultHelper.Callback callback) {
+        CameraCropPlusActivity.actionStart(activity, destSaveFile, ClipView.TYPE_PALACE, clipScaleHW, titleName, callback);
+    }
+
+    /**
+     * 高质量裁剪
+     *
+     * @param activity     上下文宿主
+     * @param destSaveFile 指定路径
+     * @param clipScaleHW  裁剪框的高宽比
+     * @param titleName    标题名称
+     * @param isA4         是否A4效果
+     * @param callback     结果回传
+     */
+    public void takePlus(Activity activity, String destSaveFile, float clipScaleHW, String titleName, boolean isA4, ActivityResultHelper.Callback callback) {
+        CameraCropPlusActivity.actionStart(activity, destSaveFile, ClipView.TYPE_PALACE, clipScaleHW, titleName, isA4, callback);
+    }
+
 }

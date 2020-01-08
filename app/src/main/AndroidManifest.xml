@@ -35,6 +35,10 @@
             android:name=".demo.clipimage.CameraCropActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".demo.clipimage.CameraCropPlusActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

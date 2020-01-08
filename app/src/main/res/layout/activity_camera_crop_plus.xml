@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <com.wonderkiln.camerakit.CameraView
+        android:id="@+id/camera_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ckFacing="back"
+        app:ckFlash="auto"
+        app:ckFocus="continuous"
+        app:ckPermissions="picture"
+        app:ckCropOutput="false"
+        app:ckPinchToZoom="true"
+        app:ckDoubleTapToToggleFacing="true"
+        android:adjustViewBounds="true"/>
+
+    <com.example.walker.myhencoder.demo.clipimage.view.ClipView
+        android:id="@+id/clip_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:id="@+id/controlViewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <View
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         android:layout_weight="1"/>
+
+        <ImageView
+            android:onClick="onCancel"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_cancel_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <ImageView
+            android:onClick="onTake"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_camera_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/controlViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:onClick="onTake"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_camera_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <ImageView
+            android:onClick="onCancel"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_cancel_white_24dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>

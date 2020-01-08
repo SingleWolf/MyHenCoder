@@ -25,6 +25,16 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/tvCameraCropPlus"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_rect_00b1f8_fill_radius_10"
+        android:gravity="center"
+        android:text="拍照取景(高质量)"
+        android:textColor="@color/white" />
+
+    <TextView
         android:id="@+id/tvCameraCropForA4"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -32,6 +42,16 @@
         android:background="@drawable/shape_rect_00b1f8_fill_radius_10"
         android:gravity="center"
         android:text="拍照取景(A4纸效果)"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvCameraCropPlusForA4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_rect_00b1f8_fill_radius_10"
+        android:gravity="center"
+        android:text="拍照取景(高质量A4纸效果)"
         android:textColor="@color/white" />
 
     <ImageView

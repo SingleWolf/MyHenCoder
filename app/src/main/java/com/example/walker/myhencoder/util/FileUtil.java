@@ -106,7 +106,7 @@ public class FileUtil {
                 imageFile.getParentFile().mkdirs();
             }
             FileOutputStream fos = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             Log.e(TAG,e.toString());
         }

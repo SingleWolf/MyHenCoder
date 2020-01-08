@@ -1,6 +1,5 @@
 package com.example.walker.myhencoder.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +23,6 @@ import android.widget.ListView;
 import com.example.walker.myhencoder.BuildConfig;
 import com.example.walker.myhencoder.R;
 import com.example.walker.myhencoder.base.BaseFragment;
-import com.example.walker.myhencoder.base.activityresult.ActivityResultHelper;
 import com.example.walker.myhencoder.demo.clipimage.CameraCropHelper;
 import com.example.walker.myhencoder.demo.clipimage.ClipImageHelper;
 import com.example.walker.myhencoder.util.FileUtil;
@@ -35,8 +32,6 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -78,6 +73,8 @@ public class DemoPreviewFragment extends BaseFragment {
             imageView = baseView.findViewById(R.id.ivPreview);
             baseView.findViewById(R.id.tvCameraCrop).setOnClickListener(v -> onCameraCrop());
             baseView.findViewById(R.id.tvCameraCropForA4).setOnClickListener(v -> onCameraCropForA4());
+            baseView.findViewById(R.id.tvCameraCropPlus).setOnClickListener(v -> onCameraCropPlus());
+            baseView.findViewById(R.id.tvCameraCropPlusForA4).setOnClickListener(v -> onCameraCropPlusForA4());
             baseView.findViewById(R.id.tvImageClip).setOnClickListener(v -> onImageClip());
         }
     }
@@ -123,6 +120,25 @@ public class DemoPreviewFragment extends BaseFragment {
                 .start();
     }
 
+    private void onCameraCropPlus() {
+        AndPermission.with(getHoldActivity())
+                .runtime()
+                .permission(Permission.Group.CAMERA, Permission.Group.STORAGE)
+                .onGranted(permissions -> CameraCropHelper.get().takePlus(getHoldActivity(), "", 0.8f, "请对准取景框拍摄", (resultCode, data) -> {
+                    if (resultCode == RESULT_OK) {
+                        if (data != null) {
+                            String filePath = data.getStringExtra(CameraCropHelper.IMAGE_PATH);
+                            if (imageView != null && !TextUtils.isEmpty(filePath)) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    }
+                }))
+                .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
+                .start();
+    }
+
     private void onCameraCropForA4() {
         AndPermission.with(getHoldActivity())
                 .runtime()
@@ -141,6 +157,26 @@ public class DemoPreviewFragment extends BaseFragment {
                 .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
                 .start();
     }
+
+    private void onCameraCropPlusForA4() {
+        AndPermission.with(getHoldActivity())
+                .runtime()
+                .permission(Permission.Group.CAMERA, Permission.Group.STORAGE)
+                .onGranted(permissions -> CameraCropHelper.get().takePlus(getHoldActivity(), "", 0.8f, "请对准取景框拍摄", true, (resultCode, data) -> {
+                    if (resultCode == RESULT_OK) {
+                        if (data != null) {
+                            String filePath = data.getStringExtra(CameraCropHelper.IMAGE_PATH);
+                            if (imageView != null && !TextUtils.isEmpty(filePath)) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    }
+                }))
+                .onDenied(permissions -> ToastUtils.showLong("没有相机权限!"))
+                .start();
+    }
+
 
     private void onShowGiftPopup() {
 //        View contentView = new GiftPopupView(getHoldActivity());

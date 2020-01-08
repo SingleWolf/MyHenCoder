@@ -8,8 +8,8 @@ android {
         applicationId "com.example.walker.myhencoder"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -40,6 +40,7 @@ dependencies {
     api 'com.dasu.image:blur:0.0.5'
     api 'com.yanzhenjie:permission:2.0.0-rc12'
 
+    implementation 'com.wonderkiln:camerakit:0.13.2'
 }
 
 repositories {
