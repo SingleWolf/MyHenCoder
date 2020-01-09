@@ -125,9 +125,9 @@ public class CameraCropPlusActivity extends Activity {
         mClipView.setClipBorderWidth(ClipView.dip2px(this, 2f));
         //设置剪切框水平间距
         if (mIsA4) {
-            mClipView.setHorizontalPaddingForA4(ClipView.dip2px(this, 30f));
+            mClipView.setHorizontalPaddingForA4(ClipView.dip2px(this, 35f));
         } else {
-            mClipView.setHorizontalPadding(ClipView.dip2px(this, 30f));
+            mClipView.setHorizontalPadding(ClipView.dip2px(this, 35f));
         }
 
         //监听屏幕方向
